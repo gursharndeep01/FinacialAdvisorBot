@@ -27,6 +27,10 @@ class SessionRequest(BaseModel):
 
 @app.on_event("startup")
 async def startup_event():
+    import os
+    if not os.path.exists("../faiss_index/index.faiss"):
+        print("Building FAISS index...")
+        build_index()
     print("Preloading FAISS index...")
     get_db()
     print("Ready!")
