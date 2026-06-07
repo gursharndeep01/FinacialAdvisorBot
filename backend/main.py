@@ -5,13 +5,15 @@ from agent import chat
 from memory import clear_memory
 from rag import build_index
 from rag import get_db
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-
-app= FastAPI(tittle="Financial Advisor")
+app = FastAPI(title="Financial Advisor")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

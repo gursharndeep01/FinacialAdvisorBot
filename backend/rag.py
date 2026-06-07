@@ -5,12 +5,10 @@ import os
 from langchain_huggingface import HuggingFaceEmbeddings
 from config import DATA_PATH, FAISS_PATH
 
-datapath="../data/"
-FAISS_PATH="../faiss_index"
 
 def build_index():
     # Load PDF documents
-    loader = PyPDFDirectoryLoader(datapath)
+    loader = PyPDFDirectoryLoader(DATA_PATH)
     documents = loader.load()
     # Split documents into chunks
     splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
