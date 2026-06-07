@@ -9,3 +9,4 @@ pypdf
 python-dotenv
 pydantic
 httpx
+torch==2.0.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
