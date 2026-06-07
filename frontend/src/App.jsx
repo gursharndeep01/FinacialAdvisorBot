@@ -30,7 +30,7 @@ export default function App() {
 
     try {
       const res = await axios.post(
-        "http://127.0.0.1:8000/chat",
+        "https://gursharn01-financial-advisor-chatbot.hf.space/chat",
         {
           message: userMessage
           // session_id: "123"  // add if your backend requires it
