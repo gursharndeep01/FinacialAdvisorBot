@@ -1,6 +1,6 @@
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,12 +9,11 @@ from agent import chat
 from memory import clear_memory
 from rag import build_index, get_db
 
-
 app = FastAPI(title="Financial Advisor")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -22,31 +21,31 @@ app.add_middleware(
 
 class ChatRequest(BaseModel):
     message: str
-    session_id: str="default"
-    
+    session_id: str = "default"
+
 class SessionRequest(BaseModel):
     session_id: str
 
-
 @app.on_event("startup")
 async def startup_event():
-    import os
-    if not os.path.exists("../faiss_index/index.faiss"):
+    base = os.path.dirname(os.path.abspath(__file__))
+    faiss_path = os.path.join(base, "../faiss_index/index.faiss")
+    if not os.path.exists(faiss_path):
         print("Building FAISS index...")
         build_index()
     print("Preloading FAISS index...")
     get_db()
     print("Ready!")
-    
+
 @app.get("/")
 def root():
     return {"status": "Financial Advisor API is running"}
+
 @app.post("/chat")
 def chat_endpoint(request: ChatRequest):
     try:
         response = chat(request.message, request.session_id)
-        return {"response": response,
-                "session_id": request.session_id}
+        return {"response": response, "session_id": request.session_id}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -54,10 +53,3 @@ def chat_endpoint(request: ChatRequest):
 def clear_session(request: SessionRequest):
     result = clear_memory(request.session_id)
     return {"cleared": result}
-@app.post("/rebuild_index")
-def rebuild_index():
-    try:
-        build_index()
-        return {"status": "Index rebuilt successfully"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
