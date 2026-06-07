@@ -1,13 +1,14 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from agent import chat
 from memory import clear_memory
-from rag import build_index
-from rag import get_db
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from rag import build_index, get_db
+
 
 app = FastAPI(title="Financial Advisor")
 
