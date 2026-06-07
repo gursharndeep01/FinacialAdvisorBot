@@ -3,6 +3,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 import os
 from langchain_huggingface import HuggingFaceEmbeddings
+from config import DATA_PATH, FAISS_PATH
 
 datapath="../data/"
 FAISS_PATH="../faiss_index"
